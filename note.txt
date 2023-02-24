@@ -1,0 +1,24 @@
+npx knex migrate:make create_users_table
+exports.up = function(knex) {
+  return knex.schema.createTable('users', function(table) {
+    table.increments('id').primary();
+    table.string('name');
+    table.string('email');
+    table.string('password');
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('users');
+};
+npx knex migrate:latest
+npx knex seed:make users_seed
+exports.seed = function(knex) {
+  return knex('users').insert([
+    { name: 'John Doe', email: 'john.doe@example.com', password: 'password1' },
+    { name: 'Jane Smith', email: 'jane.smith@example.com', password: 'password2' },
+    { name: 'Bob Johnson', email: 'bob.johnson@example.com', password: 'password3' }
+  ]);
+};
+npx knex seed:run
+https://jasonwatmore.com/post/2018/11/28/nodejs-role-based-authorization-tutorial-with-example-api
